@@ -23,12 +23,17 @@ class StartNavigationActivity : AppCompatActivity(),HasSupportFragmentInjector{
   //  一是用来标记需要依赖的变量，以此告诉Dagger2为它提供依赖；
     // 二是用来标记构造函数，Dagger2通过@Inject注解可以在需要这个类实例的时候来找到这个构造函数并把相关实例构造出来，以此来为被@Inject标记了的变量提供依赖，
 
-    override fun supportFragmentInjector() = dispatchingAndroidInjector
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_start_navigation)
 
+        if(BuildConfig.DEBUG){
+            //如果是调试版本，启动后台服务测试AIDL
+           // startService()
+        }
     }
+
+    override fun supportFragmentInjector() = dispatchingAndroidInjector
 
     override fun onBackPressed() {
         val fragment = supportFragmentManager.primaryNavigationFragment

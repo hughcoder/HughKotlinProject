@@ -35,7 +35,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-
+    ///databinding
+    kapt "com.android.databinding:compiler:$gradle_version"
 
     //dagger
     implementation "com.google.dagger:dagger:${dagger_version}"
