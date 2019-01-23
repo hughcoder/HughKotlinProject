@@ -20,6 +20,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding{
+        enabled=true
+    }
 }
 
 dependencies {
@@ -43,5 +46,9 @@ dependencies {
     ///ARouter
     implementation "com.alibaba:arouter-api:${arouter_api_versoion}"
     kapt "com.alibaba:arouter-compiler:${arouter_compiler_versoion}"
+
+    //navigation
+    implementation "android.arch.navigation:navigation-fragment:${navigation_version}"
+    implementation "android.arch.navigation:navigation-ui:${navigation_version}"
 
 }

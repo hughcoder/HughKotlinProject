@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -31,7 +32,9 @@ class StartNavigationActivity : AppCompatActivity(),HasSupportFragmentInjector{
 
     override fun onBackPressed() {
         val fragment = supportFragmentManager.primaryNavigationFragment
-      //  if(fragment is ){}
+        if(fragment is NavHostFragment){
+          //  if(fragment.navController.currentDestination?.id == ){}
+        }
         super.onBackPressed()
     }
 

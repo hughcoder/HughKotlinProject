@@ -5,7 +5,7 @@ buildscript {
     ext.dagger_version = '2.17'
     ext.arouter_api_versoion = '1.4.0'
     ext.arouter_compiler_versoion = '1.2.1'
-
+    ext.navigation_version = '1.0.0-alpha06'
     repositories {
         google()
         jcenter()
