@@ -38,6 +38,13 @@ dependencies {
     ///databinding
     kapt "com.android.databinding:compiler:$gradle_version"
 
+    //support
+    implementation "com.android.support:appcompat-v7:$android_support"
+    implementation "com.android.support:support-v4:${android_support}"
+    implementation "com.android.support:recyclerview-v7:${android_support}"
+    implementation "com.android.support:design:${android_support}"
+    implementation "com.android.support:cardview-v7:${android_support}"
+
     //dagger
     implementation "com.google.dagger:dagger:${dagger_version}"
     kapt "com.google.dagger:dagger-compiler:${dagger_version}"
@@ -52,4 +59,34 @@ dependencies {
     implementation "android.arch.navigation:navigation-fragment:${navigation_version}"
     implementation "android.arch.navigation:navigation-ui:${navigation_version}"
 
+    ///lottie
+    implementation "com.airbnb.android:lottie:${lottie_version}"
+
+    //TABBAR
+    implementation "devlight.io:navigationtabbar:${tabbar_version}"
+
+    //EDIT TEXT
+//    implementation 'com.github.HITGIF:TextFieldBoxes:1.4.4'
+
+    //iconics 3.1.0开始使用了androidx
+    implementation "com.mikepenz:iconics-core:${iconics_version}"
+    implementation "com.mikepenz:iconics-views:${iconics_version}"
+    implementation 'com.mikepenz:material-design-iconic-typeface:2.2.0.5@aar'
+    implementation 'com.mikepenz:fontawesome-typeface:5.3.1.1@aar'
+    implementation 'com.mikepenz:octicons-typeface:3.2.0.5@aar'
+    implementation 'com.mikepenz:weather-icons-typeface:2.0.10.5@aar'
+    implementation 'com.mikepenz:foundation-icons-typeface:3.0.0.5@aar'
+    implementation 'com.mikepenz:ionicons-typeface:2.0.1.5@aar'
+
+    //HTTP retrofit2
+    implementation "com.squareup.okhttp3:logging-interceptor:${okhttp3_version}"
+    implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
+    implementation "com.squareup.retrofit2:converter-gson:${retrofit_version}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${retrofit_version}"
+    implementation "com.squareup.retrofit2:converter-scalars:${retrofit_version}"
+    implementation ("com.squareup.retrofit2:converter-simplexml:${rx_version}"){
+        exclude group: 'xpp3', module: 'xpp3'
+        exclude group: 'stax', module: 'stax-api'
+        exclude group: 'stax', module: 'stax'
+    }
 }

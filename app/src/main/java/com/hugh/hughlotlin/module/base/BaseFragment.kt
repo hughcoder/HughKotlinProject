@@ -11,7 +11,7 @@ import android.view.WindowManager
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.hugh.hughlotlin.di.Injectable
-import com.hugh.hughlotlin.ui.holder.base.HughDataBindingComponent
+
 
 
 /**
@@ -28,13 +28,13 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment(), Injectable {
     var binding by autoCleared<T>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(
-                inflater,
-                getLayoutId(),
-                container,
-                false,
-                HughDataBindingComponent()
-        )
+//        binding = DataBindingUtil.inflate(
+//                inflater,
+//                getLayoutId(),
+//                container,
+//                false,
+//                HughDataBindingComponent()
+//        )
         onCreateView(binding?.root)
         return binding?.root
     }
