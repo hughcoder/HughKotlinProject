@@ -1,16 +1,11 @@
-package com.hugh.hughlotlin.model.net
+package com.hugh.hughlotlin.common.net
 
 import android.text.TextUtils
 import com.google.gson.Gson
 import com.google.gson.JsonParser
-import java.lang.RuntimeException
-import java.util.ArrayList
+import java.util.*
 
-/**
- * 欢迎页
- * Created by {chenyouwei}
- * Date: {2019/1/23}
- */
+
 /**
  * GSON序列化工具类
  */
@@ -87,3 +82,4 @@ object GsonUtils {
         }
     }
 }
+

@@ -1,12 +1,17 @@
 package com.hugh.hughlotlin.repository
 
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Observer
+
 import android.content.Context
+import io.reactivex.functions.Function
 import android.util.Base64
+import com.hugh.hughlotlin.common.net.FlatMapResponse2Result
 import com.hugh.hughlotlin.common.utils.Debuger
 import com.hugh.hughlotlin.common.utils.HughPreference
+import com.hugh.hughlotlin.model.bean.LoginRequestModel
+import com.hugh.hughlotlin.service.LoginService
 import com.shuyu.github.kotlin.common.config.AppConfig
+import io.reactivex.Observable
 import retrofit2.Retrofit
 import javax.inject.Inject
 
@@ -32,8 +37,21 @@ class LoginRepository @Inject constructor(private val retrofit: Retrofit, privat
     /**
      * 获取token
      */
-    fun getTokenObservable(): Observer<String>{
-    return retrofit.create()
+    fun getTokenObservable(): Observable<String> {
+        return retrofit.create(LoginService::class.java)
+                .authorizations(LoginRequestModel.generate())
+                .flatMap {
+                    FlatMapResponse2Result(it)
+                }.map {
+                    it.token ?: ""
+                }.doOnNext {
+                    Debuger.printfLog("token $it")
+                    accessTokenStorage = it
+                }.onErrorResumeNext(Function<Throwable, Observable<String>> { t ->
+                    Debuger.printfLog("token onErrorResumeNext ")
+                    clearTokenStorage()
+                    Observable.error(t)
+                })
     }
 
     /**
@@ -46,9 +64,10 @@ class LoginRepository @Inject constructor(private val retrofit: Retrofit, privat
 
         Debuger.printfLog("base64Str login $base64")
         usernameStorage = username
-        userBasicCodeStorage =base64
+        userBasicCodeStorage = base64
 
-        val loginService =
+        val loginService = getTokenObservable()
+        val userService = userRepository
     }
 
 

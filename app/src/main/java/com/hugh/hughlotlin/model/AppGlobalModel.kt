@@ -1,6 +1,7 @@
 package com.hugh.hughlotlin.model
 
 
+import com.hugh.hughlotlin.model.ui.UserUIModel
 import javax.inject.Inject
 import javax.inject.Singleton
 
