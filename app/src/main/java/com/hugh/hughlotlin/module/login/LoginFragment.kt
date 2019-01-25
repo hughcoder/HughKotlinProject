@@ -33,8 +33,8 @@ class LoginFragment:BaseFragment<FragmentLoginBinding>(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        loginViewModel = ViewModelProviders.of(this, viewModelFactory)
-//                .get(LoginViewModel::class.java)
+        loginViewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(LoginViewModel::class.java)
 
 
     }
