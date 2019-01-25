@@ -7,9 +7,9 @@ import android.view.View
 import com.hugh.hughlotlin.R
 import com.hugh.hughlotlin.common.utils.HughPreference
 import com.hugh.hughlotlin.databinding.FragmentWelcomeBinding
-import com.hugh.hughlotlin.model.AppGlobalModel
+//import com.hugh.hughlotlin.model.AppGlobalModel
 import com.hugh.hughlotlin.model.bean.User
-import com.hugh.hughlotlin.model.conversion.UserConversion
+//import com.hugh.hughlotlin.model.conversion.UserConversion
 import com.hugh.hughlotlin.model.net.GsonUtils
 import com.hugh.hughlotlin.module.base.BaseFragment
 import com.shuyu.github.kotlin.common.config.AppConfig
@@ -25,8 +25,8 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(){
 
     private var userInfoStorage: String by HughPreference(AppConfig.USER_INFO,"")
 
-    @Inject
-    lateinit var appGlobalModel: AppGlobalModel
+//    @Inject
+//    lateinit var appGlobalModel: AppGlobalModel
 
     /**
      *  委托属性，sharedpreference把取值和存值的操作代理给 accessTokenStoreage

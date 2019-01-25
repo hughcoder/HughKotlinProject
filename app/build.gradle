@@ -4,6 +4,10 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'realm-android'
+
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -12,6 +16,12 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -20,20 +30,32 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    dataBinding{
-        enabled=true
+    kapt {  //Kotlin-android: unresolved reference databinding
+        generateStubs = true
+        arguments {
+            arg("AROUTER_MODULE_NAME", project.getName())
+        }
     }
+    lintOptions {
+        abortOnError false
+    }
+    dataBinding {
+        enabled = true
+    }
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-//    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    //kotlin plugin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation "org.jetbrains.anko:anko:$anko_version"
+    //kotlin ktx (used 0.3 now , 1.0.0 need api28)
+    implementation "androidx.core:core-ktx:$ktx_version"
 
     ///databinding
     kapt "com.android.databinding:compiler:$gradle_version"
@@ -45,28 +67,58 @@ dependencies {
     implementation "com.android.support:design:${android_support}"
     implementation "com.android.support:cardview-v7:${android_support}"
 
+
+    implementation "android.arch.lifecycle:extensions:${lifecycle_version}"
+    implementation "android.arch.persistence.room:runtime:${lifecycle_version}"
+    kapt "android.arch.lifecycle:compiler:${lifecycle_version}"
+    kapt "android.arch.persistence.room:compiler:${lifecycle_version}"
+
+    //constraint
+    implementation "com.android.support.constraint:constraint-layout:${constraint_version}"
+
+    //navigation
+    implementation "android.arch.navigation:navigation-fragment:${navigation_version}"
+    implementation "android.arch.navigation:navigation-ui:${navigation_version}"
+
     //dagger
     implementation "com.google.dagger:dagger:${dagger_version}"
     kapt "com.google.dagger:dagger-compiler:${dagger_version}"
     implementation "com.google.dagger:dagger-android-support:${dagger_version}"
     kapt "com.google.dagger:dagger-android-processor:${dagger_version}"
 
+    //HTTP retrofit2
+    implementation "com.squareup.okhttp3:logging-interceptor:${okhttp3_version}"
+    implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
+    implementation "com.squareup.retrofit2:converter-gson:${retrofit_version}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${retrofit_version}"
+    implementation "com.squareup.retrofit2:converter-scalars:${retrofit_version}"
+    implementation("com.squareup.retrofit2:converter-simplexml:${rx_version}") {
+        exclude group: 'xpp3', module: 'xpp3'
+        exclude group: 'stax', module: 'stax-api'
+        exclude group: 'stax', module: 'stax'
+    }
+
     ///ARouter
     implementation "com.alibaba:arouter-api:${arouter_api_versoion}"
     kapt "com.alibaba:arouter-compiler:${arouter_compiler_versoion}"
 
-    //navigation
-    implementation "android.arch.navigation:navigation-fragment:${navigation_version}"
-    implementation "android.arch.navigation:navigation-ui:${navigation_version}"
+    //RxJava
+    implementation "io.reactivex.rxjava2:rxandroid:${rx_version}"
+    implementation "io.reactivex.rxjava2:rxjava:${rx_version}"
 
-    ///lottie
-    implementation "com.airbnb.android:lottie:${lottie_version}"
+    //eventbus
+    implementation "org.greenrobot:eventbus:${event_bus}"
+
+    //glide
+//    implementation "com.github.CarGuo.GSYImageLoader:GSYGlideLoader:${gsy_image_load}"
+//    implementation "com.github.CarGuo.GSYImageLoader:GSYImageLoader:${gsy_image_load}"
+
+    ///webview
+    implementation "com.just.agentweb:agentweb:${agentweb_version}"
+    implementation "com.just.agentweb:download:${agentweb_version}"
 
     //TABBAR
     implementation "devlight.io:navigationtabbar:${tabbar_version}"
-
-    //EDIT TEXT
-//    implementation 'com.github.HITGIF:TextFieldBoxes:1.4.4'
 
     //iconics 3.1.0开始使用了androidx
     implementation "com.mikepenz:iconics-core:${iconics_version}"
@@ -78,15 +130,45 @@ dependencies {
     implementation 'com.mikepenz:foundation-icons-typeface:3.0.0.5@aar'
     implementation 'com.mikepenz:ionicons-typeface:2.0.1.5@aar'
 
-    //HTTP retrofit2
-    implementation "com.squareup.okhttp3:logging-interceptor:${okhttp3_version}"
-    implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
-    implementation "com.squareup.retrofit2:converter-gson:${retrofit_version}"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:${retrofit_version}"
-    implementation "com.squareup.retrofit2:converter-scalars:${retrofit_version}"
-    implementation ("com.squareup.retrofit2:converter-simplexml:${rx_version}"){
-        exclude group: 'xpp3', module: 'xpp3'
-        exclude group: 'stax', module: 'stax-api'
-        exclude group: 'stax', module: 'stax'
-    }
+    //EDIT TEXT
+//    implementation "com.github.HITGIF:TextFieldBoxes:${textfiled_box_version}"
+
+    ///loading spinkit
+//    implementation "com.github.ybq:Android-SpinKit:${spinkit_version}"
+
+    ///recycler adapter
+    //   implementation "com.github.CarGuo.LazyRecyclerAdapter:CommonRecycler-Kotlin:${recycler_common_version}"
+
+    ///drop menu
+    // implementation "com.github.dongjunkun:DropDownMenu:${drop_menu_version}"
+
+    ///markdown
+//    implementation "com.github.tiagohm.MarkdownView:library:${richtext_version}"
+    implementation "ru.noties:markwon:${markwon_version}"
+    implementation "ru.noties:markwon-image-loader:${markwon_version}"
+    implementation "ru.noties:markwon-syntax-highlight:${markwon_version}"
+    implementation "ru.noties:markwon-view:${markwon_version}"
+
+    ///Prism4j
+    kapt "ru.noties:prism4j-bundler:${prism4j_version}"
+
+    ///dialogplus
+    implementation "com.orhanobut:dialogplus:${dialogplus_version}"
+
+    ///Drawer
+    implementation "com.mikepenz:materialdrawer:6.0.9"
+
+    ///lottie
+    implementation "com.airbnb.android:lottie:${lottie_version}"
+
+    ///bugly
+    implementation "com.tencent.bugly:crashreport:${bugly_version}"
+
+    ///PHOTO VIEW
+//    implementation "com.github.chrisbanes:PhotoView:${photoview_version}"
+
+
+    implementation "com.github.hotchemi:permissionsdispatcher:${permission_version}"
+    kapt "com.github.hotchemi:permissionsdispatcher-processor:${permission_version}"
+
 }

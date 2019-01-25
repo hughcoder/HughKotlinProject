@@ -28,13 +28,12 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment(), Injectable {
     var binding by autoCleared<T>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        binding = DataBindingUtil.inflate(
-//                inflater,
-//                getLayoutId(),
-//                container,
-//                false,
-//                HughDataBindingComponent()
-//        )
+        binding = DataBindingUtil.inflate(
+                inflater,
+                getLayoutId(),
+                container,
+                false
+        )
         onCreateView(binding?.root)
         return binding?.root
     }

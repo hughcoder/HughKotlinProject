@@ -7,4 +7,4 @@ import javax.inject.Inject
  * Created by {chenyouwei}
  * Date: {2019/1/24}
  */
-class LoginViewModel @Inject constructor()
+class LoginViewModel @Inject constructor( )
