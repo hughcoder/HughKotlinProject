@@ -10,9 +10,9 @@
             name="userUIModel"
             type="com.hugh.hughlotlin.model.ui.UserUIModel" />
 
-        <!--<variable-->
-            <!--name="baseUserViewModel"-->
-            <!--type="com.shuyu.github.kotlin.module.base.BaseUserInfoViewModel" />-->
+        <variable
+            name="baseUserViewModel"
+            type="com.hugh.hughlotlin.module.base.BaseUserInfoViewModel" />
 
     </data>
 

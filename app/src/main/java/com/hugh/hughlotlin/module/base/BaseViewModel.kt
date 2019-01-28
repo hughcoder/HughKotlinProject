@@ -4,6 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.hugh.hughlotlin.common.net.ResultCallBack
+import org.jetbrains.anko.runOnUiThread
 
 
 /**
@@ -11,13 +12,13 @@ import com.hugh.hughlotlin.common.net.ResultCallBack
  * Created by {chenyouwei}
  * Date: {2019/1/28}
  */
-abstract class BaseViewModel (private val application: Application) : ViewModel(),ResultCallBack<ArrayList<Any>>{
+abstract class BaseViewModel(private val application: Application) : ViewModel(), ResultCallBack<ArrayList<Any>> {
     val dataList = MutableLiveData<ArrayList<Any>>()
     val loading = MutableLiveData<LoadState>()
     val needMore = MutableLiveData<Boolean>()
 
-    var lastPage : Int = -1
-    var page =1
+    var lastPage: Int = -1
+    var page = 1
 
     init {
         needMore.value = true
@@ -25,8 +26,8 @@ abstract class BaseViewModel (private val application: Application) : ViewModel(
         dataList.value = arrayListOf()
     }
 
-    open fun refresh(){
-        if(isLoading()){
+    open fun refresh() {
+        if (isLoading()) {
             return
         }
         page = 1
@@ -34,21 +35,21 @@ abstract class BaseViewModel (private val application: Application) : ViewModel(
         loadDataByRefresh()
     }
 
-    open fun loadMore(){
-        if(isLoading()){
+    open fun loadMore() {
+        if (isLoading()) {
             return
         }
-        page ++
+        page++
         loading.value = LoadState.LoadMore
         loadDataByLoadMore()
     }
 
-    open fun completeLoadDate(){
-        when(loading.value){
+    open fun completeLoadData() {
+        when (loading.value) {
             LoadState.Refresh -> {
                 loading.value = LoadState.RefreshDone
             }
-            LoadState.LoadMore ->{
+            LoadState.LoadMore -> {
                 loading.value = LoadState.LoadMoreDone
             }
             LoadState.NONE -> {
@@ -59,6 +60,52 @@ abstract class BaseViewModel (private val application: Application) : ViewModel(
 
     open fun isLoading(): Boolean =
             loading.value == LoadState.Refresh && loading.value == LoadState.LoadMore
+
+    open fun clearWhenRefresh() {
+        if (page <= 1) {
+            dataList.value = arrayListOf()
+            needMore.value = true
+        }
+    }
+
+    open fun commitResult(result: ArrayList<Any>?){
+        result?.apply {
+            dataList.value = result
+        }
+    }
+
+    open fun isFirstData(): Boolean = page == 1
+
+
+    override fun onSuccess(result: ArrayList<Any>?) {
+        commitResult(result)
+        completeLoadData()
+    }
+
+    override fun onCacheSuccess(result: ArrayList<Any>?) {
+        application.runOnUiThread {
+            result?.apply {
+                if (this.isNotEmpty()) {
+                    commitResult(result)
+                }
+            }
+        }
+    }
+
+    override fun onFailure() {
+        completeLoadData()
+    }
+
+    override fun onPage(first: Int, current: Int, last: Int) {
+        if (last != -1) {
+            lastPage = last
+        }
+        if (lastPage != -1) {
+            application.runOnUiThread {
+                needMore.value = (page < lastPage)
+            }
+        }
+    }
 
     abstract fun loadDataByRefresh()
 
