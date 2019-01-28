@@ -8,6 +8,7 @@ import com.hugh.hughlotlin.common.net.PageInfo
 import com.hugh.hughlotlin.common.utils.HughPreference
 import com.hugh.hughlotlin.model.AppGlobalModel
 import com.hugh.hughlotlin.model.bean.User
+import com.hugh.hughlotlin.model.conversion.UserConversion
 import com.hugh.hughlotlin.module.login.dao.UserDao
 import com.hugh.hughlotlin.service.RepoService
 import com.hugh.hughlotlin.service.UserService
@@ -57,10 +58,26 @@ class UserRepository @Inject constructor(private val retrofit: Retrofit, private
             val starPageString = starResponse.headers().get("page_info")
             if(starPageString !=null){
                 val pageInfo = GsonUtils.parserJsonToBean(starPageString, PageInfo::class.java)
+                it.starRepos = if(pageInfo.last<0){
+                    0
+                }else{
+                    pageInfo.last
+                }
+            }
+            if(honorResponse.isSuccessful){
+                val list = honorResponse.body()
+                var count = 0
+                list?.forEach{
+                 count += it.watchersCount
+                }
+                it.honorRepos = count
             }
             Observable.just(it)
         }.doOnNext {
-
+           if (isLoginUser){
+               userInfoStorage = GsonUtils.toJsonString(it)
+               UserConversion.cloneDataFromUser(application, it, appGlobalModel.userObservable)
+           }
         }
     }
 

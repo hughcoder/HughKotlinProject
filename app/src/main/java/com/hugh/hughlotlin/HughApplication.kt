@@ -3,6 +3,8 @@ package com.hugh.hughlotlin
 import android.app.Activity
 import android.app.Application
 import com.alibaba.android.arouter.launcher.ARouter
+import com.hugh.hughlotlin.common.style.CYWIconfont
+import com.mikepenz.iconics.Iconics
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
@@ -46,5 +48,9 @@ class HughApplication : Application(), HasActivityInjector {
 
         //Application级别注入
        // AppInjector.init()
+
+        ///初始化图标库
+        Iconics.init(applicationContext)
+        Iconics.registerFont(CYWIconfont())
     }
 }
