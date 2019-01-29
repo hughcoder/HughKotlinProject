@@ -1,6 +1,7 @@
 package com.hugh.hughlotlin.ui.holder.base
 
 import android.databinding.BindingAdapter
+import android.databinding.DataBindingComponent
 import android.graphics.Point
 import android.view.View
 import android.widget.EditText
@@ -88,6 +89,6 @@ class DataBindingExpandUtils {
  */
 
 
-//class HughDataBindingComponent : DataBindingComponent {
-//  //  override fun getCompanion(): DataBindingExpandUtils.Companion = DataBindingExpandUtils
-//}
+class HughDataBindingComponent : DataBindingComponent {
+  //  override fun getCompanion(): DataBindingExpandUtils.Companion = DataBindingExpandUtils
+}

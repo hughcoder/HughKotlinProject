@@ -9,7 +9,9 @@ import com.hugh.hughlotlin.repository.UserRepository
  * Date: {2019/1/28}
  */
 
-abstract class BaseUserInfoComponent<T:BaseUserInfoViewModel > : BaseListFragment <>(){}
+abstract class BaseUserInfoComponent<T:BaseUserInfoViewModel > : BaseListFragment <,T>(){
+
+}
 
 abstract class BaseUserInfoViewModel constructor(private val userRepository: UserRepository,private val application: HughApplication) : BaseViewModel(application){
 
